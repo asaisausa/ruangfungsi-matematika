@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#eaf6ff" />
+  <meta name="description" content="Website belajar Matematika SMA kelas XI: operasi aljabar fungsi, komposisi fungsi, dan fungsi invers beserta latihan dan kuis interaktif." />
+  <title>RuangFungsi — Matematika XI</title>
+  <style>
+    :root {
+      --ink: #17324d;
+      --muted: #5d7489;
+      --blue: #2878c8;
+      --blue-dark: #165da7;
+      --sky: #dff2ff;
+      --pale: #f2f9ff;
+      --line: #d7e9f7;
+      --white: #ffffff;
+      --green: #18794e;
+      --green-bg: #e6f8ef;
+      --red: #a83b45;
+      --red-bg: #fff0f0;
+      --shadow: 0 16px 42px rgba(40, 100, 150, .09);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body { margin: 0; color: var(--ink); background: #f7fbff; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.65; }
+    a { color: var(--blue-dark); }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(215,233,247,.9); }
+    .nav { max-width: 1160px; padding: 12px 22px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 850; letter-spacing: -.04em; font-size: 1.12rem; text-decoration: none; color: var(--ink); white-space: nowrap; }
+    .brand-mark { width: 39px; height: 39px; border-radius: 13px; display: grid; place-items: center; color: white; background: linear-gradient(145deg,#65c4ff,#2878c8); box-shadow: 0 7px 16px rgba(40,120,200,.22); font-size: 1.35rem; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a { color: #526d83; text-decoration: none; font-size: .92rem; font-weight: 700; padding: 9px 12px; border-radius: 12px; }
+    .nav-links a:hover { color: var(--blue-dark); background: var(--pale); }
+    .nav-cta { background: var(--blue) !important; color: white !important; padding-inline: 16px !important; }
+    .hero { overflow: hidden; position: relative; padding: 66px 22px 48px; background: radial-gradient(circle at 84% 18%, rgba(255,255,255,.9) 0 7%, transparent 7.5%), radial-gradient(circle at 91% 70%, rgba(255,255,255,.52) 0 12%, transparent 12.5%), linear-gradient(125deg, #e9f7ff 0%, #d9efff 54%, #f3faff 100%); }
+    .hero::before, .hero::after { content:""; position:absolute; border: 1px solid rgba(40,120,200,.12); border-radius: 50%; pointer-events:none; }
+    .hero::before { width: 360px; height: 360px; right: -110px; top: -130px; }
+    .hero::after { width: 250px; height: 250px; right: -52px; top: -75px; }
+    .hero-inner { max-width: 1160px; margin: auto; display: grid; grid-template-columns: minmax(0,1.25fr) minmax(280px,.75fr); gap: 45px; align-items: center; position: relative; z-index: 1; }
+    .eyebrow { display: inline-flex; gap: 8px; align-items: center; background: rgba(255,255,255,.78); border: 1px solid #c6e5fb; color: var(--blue-dark); border-radius: 999px; padding: 7px 12px; font-size: .78rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { margin: 18px 0 14px; font-size: clamp(2.5rem,5.1vw,4.6rem); letter-spacing: -.06em; line-height: 1.05; max-width: 720px; }
+    h1 span { color: var(--blue); }
+    .hero-copy { max-width: 635px; color: #4c6a83; font-size: 1.08rem; margin: 0 0 25px; }
+    .hero-actions { display:flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; border: 0; border-radius: 13px; padding: 12px 17px; font-weight: 800; text-decoration: none; transition: transform .15s ease, box-shadow .15s ease, background .15s ease; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--blue); color: white; box-shadow: 0 8px 18px rgba(40,120,200,.2); }
+    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-secondary { background: white; color: var(--ink); border: 1px solid #d1e5f5; }
+    .btn-secondary:hover { background: #f6fbff; }
+    .hero-visual { display:flex; justify-content:center; align-items:center; min-height: 285px; }
+    .formula-orbit { width: min(100%,355px); aspect-ratio: 1; position:relative; border-radius: 50%; border: 1px dashed rgba(40,120,200,.3); display:grid; place-items:center; background: rgba(255,255,255,.28); }
+    .formula-core { width: 57%; aspect-ratio:1; border-radius: 30%; display:grid; place-items:center; text-align:center; background: linear-gradient(145deg,#ffffff,#dff2ff); border: 1px solid white; box-shadow: 0 18px 40px rgba(40,120,200,.16); transform: rotate(-7deg); }
+    .formula-core b { font-size: 2.25rem; letter-spacing: -.07em; color: var(--blue-dark); transform: rotate(7deg); }
+    .formula-core small { display:block; color:var(--muted); font-weight:800; transform: rotate(7deg); }
+    .float-chip { position:absolute; background:white; border:1px solid #d4eafa; box-shadow:0 8px 20px rgba(40,100,150,.1); border-radius:14px; padding:10px 14px; font-weight:850; color:#276da9; }
+    .chip-one { top: 11%; left: 2%; transform:rotate(-7deg); }
+    .chip-two { right: -2%; top: 39%; transform:rotate(6deg); }
+    .chip-three { bottom: 8%; left: 13%; transform:rotate(4deg); }
+    .hero-stats { max-width:1160px; padding:0 22px; margin: -1px auto 0; display:grid; grid-template-columns: repeat(3,1fr); gap:14px; position:relative; z-index:2; }
+    .stat { background:white; border:1px solid var(--line); border-radius:17px; padding:17px 19px; display:flex; align-items:center; gap:13px; box-shadow:0 8px 24px rgba(40,100,150,.045); }
+    .stat-icon { width:43px;height:43px; flex:none; display:grid; place-items:center; border-radius:14px; background:#e9f6ff; font-size:1.2rem; }
+    .stat strong { display:block; font-size:1.02rem; line-height:1.25; }
+    .stat span:last-child { color:var(--muted); font-size:.84rem; }
+    main { max-width:1160px; padding: 45px 22px 85px; margin:auto; }
+    .section-heading { margin: 0 0 20px; display:flex; justify-content:space-between; align-items:end; gap:18px; }
+    .section-heading h2 { font-size:clamp(1.7rem,3vw,2.35rem); letter-spacing:-.045em; line-height:1.15; margin:0 0 7px; }
+    .section-heading p { margin:0; color:var(--muted); max-width:660px; }
+    .section-kicker { color:var(--blue); text-transform:uppercase; font-weight:850; font-size:.76rem; letter-spacing:.1em; margin-bottom:8px; }
+    .learning-path { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin: 22px 0 54px; }
+    .path-card { background:white; border:1px solid var(--line); border-radius:19px; padding:21px; text-decoration:none; color:inherit; transition:transform .17s ease, box-shadow .17s ease; }
+    .path-card:hover { transform:translateY(-3px); box-shadow:var(--shadow); }
+    .path-top { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; }
+    .path-number { display:grid; place-items:center; width:38px;height:38px; border-radius:12px; color:var(--blue-dark); background:#e6f4ff; font-weight:900; }
+    .path-time { font-size:.78rem; color:var(--muted); font-weight:700; }
+    .path-card h3 { margin:0 0 7px; font-size:1.12rem; }
+    .path-card p { margin:0; color:var(--muted); font-size:.92rem; }
+    .path-arrow { display:inline-flex; margin-top:16px; color:var(--blue-dark); font-weight:850; font-size:.9rem; }
+    .lesson { margin:0 0 56px; scroll-margin-top:90px; }
+    .lesson-title { display:flex; align-items:flex-start; gap:14px; margin-bottom:20px; }
+    .lesson-number { flex:none; display:grid; place-items:center; width:48px;height:48px; border-radius:16px; background:linear-gradient(145deg,#d9f0ff,#eef8ff); color:var(--blue-dark); font-size:1.22rem; font-weight:900; }
+    .lesson-title h2 { margin:0 0 5px; font-size:clamp(1.55rem,3vw,2.15rem); letter-spacing:-.045em; line-height:1.2; }
+    .lesson-title p { margin:0; color:var(--muted); }
+    .content-grid { display:grid; grid-template-columns:minmax(0,1.12fr) minmax(290px,.88fr); gap:18px; align-items:start; }
+    .card { background:white; border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:0 8px 28px rgba(40,100,150,.035); min-width:0; }
+    .card h3 { margin:0 0 10px; font-size:1.13rem; letter-spacing:-.02em; }
+    .card p { margin: 8px 0; }
+    .muted { color:var(--muted); }
+    .formula-list { display:grid; gap:10px; margin-top:14px; }
+    .formula-row { padding:13px 15px; border:1px solid #e0effa; border-radius:13px; background:#f7fbff; }
+    .formula-row strong { color:#39647f; display:block; font-size:.86rem; margin-bottom:4px; }
+    .math { font-family: "Cambria Math", Cambria, Georgia, serif; color:#164e82; font-size:1.08rem; overflow-wrap:anywhere; }
+    .callout { border-left:4px solid #57a9ec; padding:12px 14px; background:#eef8ff; border-radius:0 12px 12px 0; color:#345b78; font-size:.93rem; margin-top:16px; }
+    .example-card { background:linear-gradient(150deg,#fff,#f8fcff); }
+    .example-label { display:inline-flex; align-items:center; gap:7px; color:#17744a; background:#e8f8ef; border-radius:999px; padding:5px 10px; font-size:.76rem; font-weight:850; margin-bottom:12px; }
+    .step { display:grid; grid-template-columns:29px 1fr; gap:10px; padding:12px 0; border-bottom:1px solid #edf3f8; }
+    .step:last-of-type { border-bottom:0; }
+    .step-num { width:27px;height:27px; display:grid;place-items:center; border-radius:9px; background:#e8f5ff; color:var(--blue-dark); font-size:.82rem; font-weight:900; }
+    .step p { margin:0; }
+    .step .math { margin-top:3px; display:block; }
+    .final-answer { display:block; background:#e9f8ef; border:1px solid #c6efd8; color:#126a41; padding:12px 14px; border-radius:12px; font-family:"Cambria Math",Cambria,Georgia,serif; font-weight:800; margin-top:12px; }
+    .practice { margin-top:18px; }
+    .practice-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .practice-head h3 { margin:0; }
+    .practice-tag { font-size:.75rem; font-weight:800; color:#4d6f87; padding:4px 9px; background:#edf6fd; border-radius:999px; white-space:nowrap; }
+    .practice-item { border-top:1px solid #e7f0f7; padding:13px 0 0; margin-top:13px; }
+    .practice-item p { margin:0 0 7px; }
+    details.answer { margin-top:8px; }
+    details.answer summary { display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-weight:800; color:var(--blue-dark); font-size:.9rem; }
+    .answer-body { margin-top:8px; border-radius:11px; padding:11px 13px; background:#f0f9f4; color:#285b42; font-size:.91rem; }
+    .answer-body p { margin:4px 0; }
+    .topic-note { display:flex; gap:11px; align-items:flex-start; border:1px solid #e0eef9; background:#f8fcff; padding:14px 15px; border-radius:14px; margin-top:15px; }
+    .topic-note .note-icon { font-size:1.15rem; }
+    .topic-note p { margin:0; color:#4d6a81; font-size:.92rem; }
+    .quiz-section { background:linear-gradient(135deg,#eaf7ff 0%,#f6fbff 48%,#e9f4ff 100%); border:1px solid #d2e9fa; border-radius:28px; padding:clamp(20px,4vw,38px); margin-top:68px; scroll-margin-top:90px; }
+    .quiz-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:22px; margin-bottom:23px; }
+    .quiz-heading h2 { font-size:clamp(1.8rem,3.8vw,2.65rem); letter-spacing:-.05em; line-height:1.12; margin:0 0 10px; }
+    .quiz-heading p { margin:0; max-width:700px; color:var(--muted); }
+    .quiz-mark { flex:none; width:62px;height:62px; border-radius:20px; background:white; display:grid; place-items:center; font-size:1.8rem; box-shadow:0 10px 24px rgba(40,100,150,.08); }
+    .quiz-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; border:1px solid #d7eafa; background:rgba(255,255,255,.72); border-radius:16px; padding:12px 14px; margin-bottom:18px; }
+    .quiz-count { color:#4b6a82; font-weight:800; font-size:.9rem; }
+    .quiz-actions { display:flex; flex-wrap:wrap; gap:8px; }
+    .btn-small { padding:9px 12px; font-size:.86rem; border-radius:11px; }
+    .quiz-container { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+    .question-card { background:white; border:1px solid #d9eaf7; border-radius:17px; padding:18px; min-width:0; }
+    .question-top { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+    .q-number { display:grid; place-items:center; width:29px;height:29px; border-radius:9px; background:#e9f5ff; color:#246ca9; font-weight:900; font-size:.83rem; }
+    .q-topic { color:#5d778c; background:#f0f6fb; padding:4px 8px; border-radius:999px; font-size:.73rem; font-weight:800; }
+    .q-prompt { font-weight:800; margin:0 0 13px; white-space:normal; }
+    .options { display:grid; gap:8px; }
+    .option { display:flex; align-items:flex-start; gap:9px; padding:10px 11px; border:1px solid #e1edf6; border-radius:11px; cursor:pointer; color:#34536b; font-size:.92rem; transition:background .15s,border-color .15s; }
+    .option:hover { background:#f6fbff; border-color:#b9ddf7; }
+    .option input { accent-color:var(--blue); margin:5px 0 0; flex:none; }
+    .option.correct { background:var(--green-bg); border-color:#9edbb8; color:#176541; }
+    .option.incorrect { background:var(--red-bg); border-color:#efb6ba; color:#8d343c; }
+    .feedback { margin-top:12px; border-radius:11px; padding:11px 12px; font-size:.88rem; display:none; }
+    .feedback.visible { display:block; }
+    .feedback.good { background:var(--green-bg); color:#176541; }
+    .feedback.bad { background:var(--red-bg); color:#8d343c; }
+    .feedback .math { display:block; margin-top:4px; font-size:1rem; }
+    .quiz-footer { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-top:20px; }
+    .quiz-hint { color:#547087; font-size:.9rem; margin:0; }
+    .result-panel { display:none; background:white; border:1px solid #cfe5f5; border-radius:18px; padding:21px; margin-top:20px; }
+    .result-panel.visible { display:block; }
+    .result-main { display:flex; align-items:center; gap:17px; margin-bottom:15px; }
+    .score-circle { flex:none; width:84px;height:84px; border-radius:50%; display:grid; place-items:center; background:#e8f5ff; border:6px solid #c8e7fc; color:#155c9b; font-size:1.4rem; font-weight:950; }
+    .result-main h3 { margin:0 0 4px; font-size:1.35rem; }
+    .result-main p { margin:0; color:var(--muted); }
+    .result-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .result-stat { background:#f5faff; border-radius:12px; padding:12px; }
+    .result-stat b { display:block; font-size:1.12rem; }
+    .result-stat span { color:var(--muted); font-size:.82rem; }
+    .study-tip { color:#557187; font-size:.85rem; margin-top:14px; }
+    .footer { background:#17324d; color:#eaf5ff; padding:35px 22px; }
+    .footer-inner { max-width:1160px; margin:auto; display:flex; justify-content:space-between; gap:22px; align-items:flex-start; flex-wrap:wrap; }
+    .footer strong { display:block; font-size:1.1rem; margin-bottom:5px; }
+    .footer p { margin:0; color:#b9d0e2; font-size:.9rem; max-width:700px; }
+    .footer a { color:#a9dcff; }
+    .footer-note { align-self:flex-end; color:#b9d0e2; font-size:.85rem; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    @media (max-width:850px) {
+      .hero-inner { grid-template-columns:1fr; gap:15px; }
+      .hero-visual { min-height:225px; }
+      .formula-orbit { width:225px; }
+      .formula-core b { font-size:1.75rem; }
+      .content-grid { grid-template-columns:1fr; }
+      .quiz-container { grid-template-columns:1fr; }
+      .hero { padding-top:47px; }
+    }
+    @media (max-width:620px) {
+      .nav { padding:10px 15px; }
+      .nav-links { gap:1px; }
+      .nav-links a { font-size:.8rem; padding:8px 7px; }
+      .nav-links a:not(.nav-cta) { display:none; }
+      .brand { font-size:1rem; }
+      .brand-mark { width:35px;height:35px; }
+      .hero { padding:43px 17px 38px; }
+      .hero-stats { padding:0 15px; grid-template-columns:1fr; gap:9px; margin-top:15px; }
+      .stat { padding:12px 15px; }
+      main { padding:40px 15px 65px; }
+      .learning-path { grid-template-columns:1fr; margin-bottom:45px; }
+      .path-card { padding:17px; }
+      .section-heading { align-items:flex-start; flex-direction:column; }
+      .card { padding:19px; }
+      .quiz-section { padding:18px 13px; border-radius:21px; }
+      .quiz-heading { gap:10px; }
+      .quiz-mark { width:47px;height:47px; border-radius:15px; font-size:1.35rem; }
+      .quiz-toolbar { align-items:flex-start; }
+      .quiz-actions { width:100%; }
+      .quiz-actions .btn { flex:1; }
+      .result-summary { grid-template-columns:1fr; }
+      .result-main { align-items:flex-start; }
+      .score-circle { width:68px;height:68px; font-size:1.2rem; }
+      .lesson-title { gap:10px; }
+      .lesson-number { width:41px;height:41px; border-radius:13px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } *, *::before, *::after { transition:none !important; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav" aria-label="Navigasi utama">
+      <a class="brand" href="#beranda"><span class="brand-mark">ƒ</span><span>RuangFungsi<span style="color:#2878c8">.</span></span></a>
+      <div class="nav-links">
+        <a href="#materi">Materi</a>
+        <a href="#latihan">Latihan</a>
+        <a class="nav-cta" href="#kuis">Mulai Kuis ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" id="beranda">
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">✦ Matematika SMA · Kelas XI</span>
+        <h1>Kenali fungsi,<br /><span>kuasai polanya.</span></h1>
+        <p class="hero-copy">Belajar operasi aljabar fungsi, komposisi fungsi, dan fungsi invers lewat penjelasan sederhana, contoh bertahap, latihan, serta kuis yang bisa diacak kapan saja.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#materi">Mulai belajar <span aria-hidden="true">→</span></a>
+          <a class="btn btn-secondary" href="#kuis">Coba kuis interaktif</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="Ilustrasi rumus matematika">
+        <div class="formula-orbit">
+          <span class="float-chip chip-one">f(x) + g(x)</span>
+          <span class="float-chip chip-two">(f ∘ g)(x)</span>
+          <span class="float-chip chip-three">f⁻¹(x)</span>
+          <div class="formula-core"><div><b>f(x)</b><small>fungsi & pola</small></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="hero-stats" aria-label="Isi website">
+    <div class="stat"><span class="stat-icon">📘</span><div><strong>3 materi utama</strong><span>Konsep hingga rumus penting</span></div></div>
+    <div class="stat"><span class="stat-icon">✍️</span><div><strong>Contoh bertahap</strong><span>Ikuti proses hitungnya</span></div></div>
+    <div class="stat"><span class="stat-icon">🎯</span><div><strong>Kuis otomatis</strong><span>Skor dan pembahasan langsung</span></div></div>
+  </div>
+
+  <main>
+    <section id="materi">
+      <div class="section-heading">
+        <div><div class="section-kicker">Peta belajar</div><h2>Mau mulai dari mana?</h2><p>Ikuti urutan ini supaya lebih gampang menghubungkan satu konsep dengan konsep berikutnya.</p></div>
+      </div>
+      <div class="learning-path">
+        <a class="path-card" href="#operasi"><div class="path-top"><span class="path-number">01</span><span class="path-time">Dasar fungsi</span></div><h3>Operasi Aljabar Fungsi</h3><p>Menggabungkan dua fungsi dengan tambah, kurang, kali, atau bagi.</p><span class="path-arrow">Pelajari materi ↗</span></a>
+        <a class="path-card" href="#komposisi"><div class="path-top"><span class="path-number">02</span><span class="path-time">Menyusun fungsi</span></div><h3>Komposisi Fungsi</h3><p>Memasukkan hasil satu fungsi ke fungsi lainnya.</p><span class="path-arrow">Pelajari materi ↗</span></a>
+        <a class="path-card" href="#invers"><div class="path-top"><span class="path-number">03</span><span class="path-time">Membalik fungsi</span></div><h3>Fungsi Invers</h3><p>Mencari aturan yang mengembalikan hasil ke nilai awal.</p><span class="path-arrow">Pelajari materi ↗</span></a>
+      </div>
+    </section>
+
+    <section class="lesson" id="operasi">
+      <div class="lesson-title"><span class="lesson-number">01</span><div><h2>Operasi Aljabar Fungsi</h2><p>Penjumlahan, pengurangan, perkalian, dan pembagian fungsi.</p></div></div>
+      <div class="content-grid">
+        <article class="card">
+          <h3>Konsep dasarnya</h3>
+          <p>Fungsi bisa diperlakukan seperti bentuk aljabar. Kalau ada dua fungsi, misalnya <span class="math">f(x)</span> dan <span class="math">g(x)</span>, kita dapat menggabungkannya dengan operasi hitung. Kerjakan bentuk fungsi seperti biasa, tetapi perhatikan tanda kurung dan nilai yang membuat penyebut nol.</p>
+          <div class="formula-list">
+            <div class="formula-row"><strong>Penjumlahan</strong><div class="math">(f + g)(x) = f(x) + g(x)</div></div>
+            <div class="formula-row"><strong>Pengurangan</strong><div class="math">(f − g)(x) = f(x) − g(x)</div></div>
+            <div class="formula-row"><strong>Perkalian</strong><div class="math">(f · g)(x) = f(x) · g(x)</div></div>
+            <div class="formula-row"><strong>Pembagian</strong><div class="math">(f / g)(x) = f(x) / g(x), dengan g(x) ≠ 0</div></div>
+          </div>
+          <div class="callout"><b>Ingat:</b> pada pengurangan, tanda di dalam fungsi kedua ikut berubah. Pada pembagian, nilai yang membuat <span class="math">g(x) = 0</span> tidak boleh masuk domain.</div>
+        </article>
+        <article class="card example-card">
+          <span class="example-label">✓ Contoh soal & pembahasan</span>
+          <h3>Diketahui dua fungsi</h3>
+          <p class="math">f(x) = 2x + 3 dan g(x) = x − 1</p>
+          <p>Tentukan <span class="math">(f + g)(x)</span>, <span class="math">(f − g)(x)</span>, <span class="math">(f · g)(x)</span>, dan <span class="math">(f / g)(x)</span>.</p>
+          <div class="step"><span class="step-num">1</span><p><b>Penjumlahan</b><span class="math">(f + g)(x) = (2x + 3) + (x − 1)</span><span class="math">= 2x + x + 3 − 1 = 3x + 2</span></p></div>
+          <div class="step"><span class="step-num">2</span><p><b>Pengurangan</b><span class="math">(f − g)(x) = (2x + 3) − (x − 1)</span><span class="math">= 2x + 3 − x + 1 = x + 4</span></p></div>
+          <div class="step"><span class="step-num">3</span><p><b>Perkalian</b><span class="math">(f · g)(x) = (2x + 3)(x − 1)</span><span class="math">= 2x² − 2x + 3x − 3 = 2x² + x − 3</span></p></div>
+          <div class="step"><span class="step-num">4</span><p><b>Pembagian</b><span class="math">(f / g)(x) = (2x + 3) / (x − 1)</span><span class="math">Syarat: x − 1 ≠ 0, jadi x ≠ 1.</span></p></div>
+          <span class="final-answer">Hasil:<br>(f + g)(x) = 3x + 2<br>(f − g)(x) = x + 4<br>(f · g)(x) = 2x² + x − 3<br>(f / g)(x) = (2x + 3)/(x − 1), x ≠ 1</span>
+        </article>
+      </div>
+      <article class="card practice" id="latihan">
+        <div class="practice-head"><h3>Latihan mandiri</h3><span class="practice-tag">Coba dulu, baru buka jawaban</span></div>
+        <div class="practice-item"><p><b>1.</b> Diketahui <span class="math">f(x) = 3x + 2</span> dan <span class="math">g(x) = x − 4</span>. Tentukan <span class="math">(f + g)(x)</span>.</p><details class="answer"><summary>Lihat kunci & cara singkat</summary><div class="answer-body"><p><span class="math">(3x + 2) + (x − 4) = 4x − 2</span></p><p>Gabungkan suku sejenis: <span class="math">3x + x = 4x</span> dan <span class="math">2 − 4 = −2</span>.</p></div></details></div>
+        <div class="practice-item"><p><b>2.</b> Jika <span class="math">f(x) = 2x − 1</span> dan <span class="math">g(x) = x + 3</span>, tentukan <span class="math">(f · g)(x)</span>.</p><details class="answer"><summary>Lihat kunci & cara singkat</summary><div class="answer-body"><p><span class="math">(2x − 1)(x + 3) = 2x² + 6x − x − 3</span></p><p>Jadi, hasilnya <span class="math">2x² + 5x − 3</span>.</p></div></details></div>
+        <div class="practice-item"><p><b>3.</b> Tentukan <span class="math">(f / g)(x)</span> jika <span class="math">f(x) = x² − 4</span> dan <span class="math">g(x) = x − 2</span>.</p><details class="answer"><summary>Lihat kunci & cara singkat</summary><div class="answer-body"><p><span class="math">(x² − 4)/(x − 2) = ((x − 2)(x + 2))/(x − 2) = x + 2</span></p><p>Syarat dari fungsi awal tetap berlaku, yaitu <span class="math">x ≠ 2</span>.</p></div></details></div>
+      </article>
+    </section>
+
+    <section class="lesson" id="komposisi">
+      <div class="lesson-title"><span class="lesson-number">02</span><div><h2>Komposisi Fungsi</h2><p>Menyusun dua fungsi menjadi satu fungsi baru.</p></div></div>
+      <div class="content-grid">
+        <article class="card">
+          <h3>Apa itu komposisi fungsi?</h3>
+          <p>Komposisi fungsi berarti memasukkan hasil dari satu fungsi ke fungsi lain. Bayangkan fungsi pertama sebagai mesin yang mengolah angka, lalu hasilnya dimasukkan lagi ke mesin kedua.</p>
+          <div class="formula-list">
+            <div class="formula-row"><strong>f dikerjakan setelah g</strong><div class="math">(f ∘ g)(x) = f(g(x))</div><p class="muted" style="font-size:.88rem;margin-bottom:0">Hitung g(x) terlebih dahulu, lalu masukkan hasilnya ke f.</p></div>
+            <div class="formula-row"><strong>g dikerjakan setelah f</strong><div class="math">(g ∘ f)(x) = g(f(x))</div><p class="muted" style="font-size:.88rem;margin-bottom:0">Hitung f(x) terlebih dahulu, lalu masukkan hasilnya ke g.</p></div>
+          </div>
+          <div class="callout"><b>Penting:</b> urutan berpengaruh. Pada umumnya <span class="math">(f ∘ g)(x) ≠ (g ∘ f)(x)</span>. Perhatikan fungsi yang berada di dalam tanda kurung.</div>
+          <div class="topic-note"><span class="note-icon">🧠</span><p><b>Trik membaca:</b> <span class="math">(f ∘ g)(x)</span> dibaca “f komposisi g dari x”. Huruf yang di dalam dikerjakan lebih dahulu.</p></div>
+        </article>
+        <article class="card example-card">
+          <span class="example-label">✓ Contoh soal & pembahasan</span>
+          <h3>Tentukan kedua komposisi</h3>
+          <p class="math">f(x) = 2x + 1 dan g(x) = x² − 3</p>
+          <p><b>A. Cari <span class="math">(f ∘ g)(x)</span></b></p>
+          <div class="step"><span class="step-num">1</span><p>Gunakan bentuk <span class="math">f(g(x))</span>.<span class="math">f(g(x)) = 2g(x) + 1</span></p></div>
+          <div class="step"><span class="step-num">2</span><p>Ganti <span class="math">g(x)</span> dengan <span class="math">x² − 3</span>.<span class="math">= 2(x² − 3) + 1 = 2x² − 5</span></p></div>
+          <span class="final-answer">(f ∘ g)(x) = 2x² − 5</span>
+          <p style="margin-top:18px"><b>B. Cari <span class="math">(g ∘ f)(x)</span></b></p>
+          <div class="step"><span class="step-num">1</span><p>Gunakan bentuk <span class="math">g(f(x))</span>.<span class="math">g(f(x)) = (f(x))² − 3</span></p></div>
+          <div class="step"><span class="step-num">2</span><p>Ganti <span class="math">f(x)</span> dengan <span class="math">2x + 1</span>.<span class="math">= (2x + 1)² − 3 = 4x² + 4x − 2</span></p></div>
+          <span class="final-answer">(g ∘ f)(x) = 4x² + 4x − 2</span>
+        </article>
+      </div>
+      <article class="card practice">
+        <div class="practice-head"><h3>Latihan mandiri</h3><span class="practice-tag">Komposisi</span></div>
+        <div class="practice-item"><p><b>1.</b> Diketahui <span class="math">f(x) = 3x + 1</span> dan <span class="math">g(x) = x²</span>. Tentukan <span class="math">(f ∘ g)(x)</span>.</p><details class="answer"><summary>Lihat kunci & cara singkat</summary><div class="answer-body"><p><span class="math">f(g(x)) = 3g(x) + 1 = 3x² + 1</span>.</p><p>Masukkan fungsi g ke tempat x pada fungsi f.</p></div></details></div>
+        <div class="practice-item"><p><b>2.</b> Jika <span class="math">f(x) = x − 2</span> dan <span class="math">g(x) = 2x + 5</span>, tentukan <span class="math">(g ∘ f)(x)</span>.</p><details class="answer"><summary>Lihat kunci & cara singkat</summary><div class="answer-body"><p><span class="math">g(f(x)) = 2f(x) + 5 = 2(x − 2) + 5 = 2x + 1</span>.</p></div></details></div>
+      </article>
+    </section>
+
+    <section class="lesson" id="invers">
+      <div class="lesson-title"><span class="lesson-number">03</span><div><h2>Fungsi Invers</h2><p>Mencari fungsi yang membalik proses fungsi awal.</p></div></div>
+      <div class="content-grid">
+        <article class="card">
+          <h3>Pengertian dan syarat</h3>
+          <p>Fungsi invers adalah fungsi yang mengembalikan keluaran ke masukan semula. Jika fungsi <span class="math">f</span> mengubah <span class="math">x</span> menjadi <span class="math">y</span>, inversnya mengubah <span class="math">y</span> kembali menjadi <span class="math">x</span>.</p>
+          <div class="formula-list">
+            <div class="formula-row"><strong>Notasi invers</strong><div class="math">f⁻¹(x)</div><p class="muted" style="font-size:.88rem;margin-bottom:0">Dibaca “f invers”, bukan satu dibagi f(x).</p></div>
+            <div class="formula-row"><strong>Syarat umum</strong><div class="math">f(f⁻¹(x)) = x</div><p class="muted" style="font-size:.88rem;margin-bottom:0">Agar invers juga menjadi fungsi, fungsi awal harus satu-satu (bijektif pada domain dan kodomain yang ditetapkan).</p></div>
+          </div>
+          <h3 style="margin-top:20px">Cara menentukan invers</h3>
+          <div class="step"><span class="step-num">1</span><p>Misalkan <span class="math">y = f(x)</span>.</p></div>
+          <div class="step"><span class="step-num">2</span><p>Tukar posisi <span class="math">x</span> dan <span class="math">y</span>.</p></div>
+          <div class="step"><span class="step-num">3</span><p>Selesaikan persamaan hingga <span class="math">y</span> berdiri sendiri.</p></div>
+          <div class="step"><span class="step-num">4</span><p>Ganti <span class="math">y</span> menjadi <span class="math">f⁻¹(x)</span>.</p></div>
+          <div class="callout"><b>Catatan:</b> fungsi seperti <span class="math">f(x) = x²</span> tidak memiliki invers yang berupa fungsi jika domainnya semua bilangan real. Jika domain dibatasi menjadi <span class="math">x ≥ 0</span>, inversnya bisa berupa <span class="math">√x</span>.</div>
+        </article>
+        <article class="card example-card">
+          <span class="example-label">✓ Contoh soal & pembahasan</span>
+          <h3>Tentukan invers dari</h3>
+          <p class="math">f(x) = 3x − 6</p>
+          <div class="step"><span class="step-num">1</span><p>Ubah fungsi menjadi <span class="math">y = 3x − 6</span>.</p></div>
+          <div class="step"><span class="step-num">2</span><p>Tukar <span class="math">x</span> dan <span class="math">y</span>.<span class="math">x = 3y − 6</span></p></div>
+          <div class="step"><span class="step-num">3</span><p>Jadikan <span class="math">y</span> sebagai subjek.<span class="math">x + 6 = 3y</span><span class="math">y = (x + 6)/3</span></p></div>
+          <div class="step"><span class="step-num">4</span><p>Ganti <span class="math">y</span> menjadi <span class="math">f⁻¹(x)</span>.</p></div>
+          <span class="final-answer">f⁻¹(x) = (x + 6)/3</span>
+          <div class="topic-note"><span class="note-icon">🔎</span><p><b>Cek hasil:</b> <span class="math">f(f⁻¹(x)) = 3((x + 6)/3) − 6 = x</span>. Hasilnya kembali ke <span class="math">x</span>, berarti sesuai.</p></div>
+        </article>
+      </div>
+      <article class="card practice">
+        <div class="practice-head"><h3>Latihan mandiri</h3><span class="practice-tag">Fungsi invers</span></div>
+        <div class="practice-item"><p><b>1.</b> Tentukan invers dari <span class="math">f(x) = 2x − 7</span>.</p><details class="answer"><summary>Lihat kunci & cara singkat</summary><div class="answer-body"><p><span class="math">y = 2x − 7 → x = 2y − 7 → x + 7 = 2y</span></p><p>Jadi, <span class="math">f⁻¹(x) = (x + 7)/2</span>.</p></div></details></div>
+        <div class="practice-item"><p><b>2.</b> Jika <span class="math">f(x) = (x + 4)/3</span>, tentukan <span class="math">f⁻¹(x)</span>.</p><details class="answer"><summary>Lihat kunci & cara singkat</summary><div class="answer-body"><p><span class="math">y = (x + 4)/3 → 3y = x + 4 → x = 3y − 4</span></p><p>Setelah menukar variabel, diperoleh <span class="math">f⁻¹(x) = 3x − 4</span>.</p></div></details></div>
+      </article>
+    </section>
+
+    <section class="quiz-section" id="kuis">
+      <div class="quiz-heading"><div><div class="section-kicker">Uji pemahaman</div><h2>Siap tantang dirimu?</h2><p>Enam soal pilihan ganda akan dipilih secara acak, dengan campuran dari ketiga materi. Pilih jawaban, lalu tekan <b>Periksa Jawaban</b> untuk melihat skor, kunci, dan pembahasannya.</p></div><div class="quiz-mark" aria-hidden="true">✦</div></div>
+      <div class="quiz-toolbar"><div class="quiz-count" id="quizCount" aria-live="polite">Terjawab 0 dari 6 soal · Skor muncul setelah kuis diperiksa</div><div class="quiz-actions"><button type="button" class="btn btn-secondary btn-small" id="resetBtn">↺ Reset Kuis</button><button type="button" class="btn btn-secondary btn-small" id="changeBtn">⤨ Ganti Soal</button></div></div>
+      <form id="quizForm">
+        <div class="quiz-container" id="quizContainer"></div>
+        <div class="quiz-footer"><p class="quiz-hint" id="quizMessage" aria-live="polite">Tidak harus buru-buru. Coba kerjakan tanpa membuka catatan dulu.</p><button type="submit" class="btn btn-primary" id="submitBtn">Periksa Jawaban <span aria-hidden="true">→</span></button></div>
+      </form>
+      <section class="result-panel" id="resultPanel" aria-live="polite" aria-label="Hasil kuis">
+        <div class="result-main"><div class="score-circle" id="scoreCircle">0</div><div><h3 id="resultTitle">Hasil kuismu</h3><p id="resultSubtitle">Lihat bagian yang sudah dikuasai dan materi yang perlu diulang.</p></div></div>
+        <div class="result-summary"><div class="result-stat"><b id="correctCount">0</b><span>Jawaban benar</span></div><div class="result-stat"><b id="wrongCount">0</b><span>Jawaban salah</span></div><div class="result-stat"><b id="emptyCount">0</b><span>Belum dijawab</span></div></div>
+        <p class="study-tip" id="studyTip">Pembahasan tiap soal tampil di bawah pilihan jawaban.</p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner"><div><strong>RuangFungsi · Matematika XI</strong><p>Materi ringkas dan latihan orisinal untuk membantu belajar operasi aljabar fungsi, komposisi fungsi, dan fungsi invers. Materi disederhanakan dengan bahasa sendiri untuk tujuan pembelajaran.</p><p style="margin-top:10px">Referensi topik: <a href="https://online.fliphtml5.com/irrps/imrs/" target="_blank" rel="noopener noreferrer">Matematika Kelas XI — Kurikulum Merdeka</a>.</p></div><div class="footer-note">Belajar sedikit demi sedikit, hasilnya tetap berarti ✦</div></div>
+  </footer>
+
+  <script>
+    "use strict";
+
+    const questionBank = [
+      { id:"op1", topic:"Operasi aljabar", prompt:"Diketahui f(x) = 2x + 3 dan g(x) = x − 4. Bentuk (f + g)(x) adalah …", options:["3x − 1","x + 7","3x + 7","x − 1"], answer:"3x − 1", explanation:"Jumlahkan kedua fungsi: (2x + 3) + (x − 4) = 2x + x + 3 − 4 = 3x − 1." },
+      { id:"op2", topic:"Operasi aljabar", prompt:"Jika f(x) = 5x − 2 dan g(x) = 2x + 1, maka (f − g)(x) = …", options:["7x − 1","3x − 3","3x + 3","7x − 3"], answer:"3x − 3", explanation:"(5x − 2) − (2x + 1) = 5x − 2 − 2x − 1 = 3x − 3. Tanda minus mengenai semua suku dalam fungsi kedua." },
+      { id:"op3", topic:"Operasi aljabar", prompt:"Hasil perkalian (x + 2)(3x − 1) adalah …", options:["3x² + 5x − 2","3x² − 5x + 2","3x² + 6x − 1","3x² + x − 2"], answer:"3x² + 5x − 2", explanation:"Kalikan setiap suku: 3x² − x + 6x − 2, lalu gabungkan −x + 6x menjadi 5x." },
+      { id:"op4", topic:"Operasi aljabar", prompt:"Jika f(x) = 6x + 9 dan g(x) = 3, maka (f / g)(x) adalah …", options:["2x + 3","6x + 3","2x + 9","3x + 6"], answer:"2x + 3", explanation:"(f / g)(x) = (6x + 9)/3. Bagi setiap suku dengan 3 sehingga hasilnya 2x + 3." },
+      { id:"op5", topic:"Operasi aljabar", prompt:"Diketahui f(x) = 3x² + x dan g(x) = x² − 2. Nilai (f + g)(x) adalah …", options:["4x² + x − 2","2x² + x + 2","4x² + x + 2","3x² − x − 2"], answer:"4x² + x − 2", explanation:"(3x² + x) + (x² − 2) = 4x² + x − 2." },
+      { id:"op6", topic:"Operasi aljabar", prompt:"Untuk (f / g)(x) = (x + 1)/(x − 2), nilai x yang tidak diperbolehkan adalah …", options:["x = 1","x = −2","x = 2","x = 0"], answer:"x = 2", explanation:"Penyebut tidak boleh nol. x − 2 = 0 menghasilkan x = 2, jadi nilai tersebut dikeluarkan dari domain." },
+      { id:"ko1", topic:"Komposisi fungsi", prompt:"Jika f(x) = 2x + 1 dan g(x) = x − 3, maka (f ∘ g)(x) = …", options:["2x − 5","2x + 5","x − 2","2x − 2"], answer:"2x − 5", explanation:"(f ∘ g)(x) = f(g(x)) = 2(x − 3) + 1 = 2x − 6 + 1 = 2x − 5." },
+      { id:"ko2", topic:"Komposisi fungsi", prompt:"Jika f(x) = x² dan g(x) = x + 2, maka (g ∘ f)(x) = …", options:["x² + 2","(x + 2)²","x² + 4","2x²"], answer:"x² + 2", explanation:"(g ∘ f)(x) = g(f(x)). Karena g(t) = t + 2, masukkan f(x) = x²: hasilnya x² + 2." },
+      { id:"ko3", topic:"Komposisi fungsi", prompt:"Diketahui f(x) = 3x − 2 dan g(x) = 2x + 4. Bentuk (f ∘ g)(x) adalah …", options:["6x + 10","6x + 2","5x + 10","6x − 10"], answer:"6x + 10", explanation:"f(g(x)) = 3(2x + 4) − 2 = 6x + 12 − 2 = 6x + 10." },
+      { id:"ko4", topic:"Komposisi fungsi", prompt:"Jika f(x) = x + 5 dan g(x) = 4x, maka (g ∘ f)(x) adalah …", options:["4x + 5","4x + 20","x + 20","4x − 20"], answer:"4x + 20", explanation:"g(f(x)) = 4f(x) = 4(x + 5) = 4x + 20." },
+      { id:"ko5", topic:"Komposisi fungsi", prompt:"Diketahui f(x) = 2x dan g(x) = x² + 1. Nilai (g ∘ f)(x) adalah …", options:["2x² + 1","4x² + 1","4x² + 2","2x + 1"], answer:"4x² + 1", explanation:"g(f(x)) = (f(x))² + 1 = (2x)² + 1 = 4x² + 1." },
+      { id:"ko6", topic:"Komposisi fungsi", prompt:"Jika f(x) = x − 1 dan g(x) = x², maka (f ∘ g)(x) = …", options:["(x − 1)²","x² + 1","x² − 1","x − 1"], answer:"x² − 1", explanation:"f(g(x)) = g(x) − 1 = x² − 1." },
+      { id:"in1", topic:"Fungsi invers", prompt:"Invers dari f(x) = 4x − 8 adalah …", options:["(x + 8)/4","(x − 8)/4","4x + 8","x/4 − 8"], answer:"(x + 8)/4", explanation:"Misalkan y = 4x − 8. Tukar variabel: x = 4y − 8. Maka x + 8 = 4y, sehingga y = (x + 8)/4." },
+      { id:"in2", topic:"Fungsi invers", prompt:"Jika f(x) = (x − 3)/2, fungsi inversnya adalah …", options:["2x − 3","2x + 3","(x + 3)/2","(x − 2)/3"], answer:"2x + 3", explanation:"y = (x − 3)/2. Tukar x dan y: x = (y − 3)/2. Maka 2x = y − 3 sehingga y = 2x + 3." },
+      { id:"in3", topic:"Fungsi invers", prompt:"Invers dari f(x) = 5x + 10 adalah …", options:["(x − 10)/5","(x + 10)/5","5x − 10","x/5 + 10"], answer:"(x − 10)/5", explanation:"y = 5x + 10. Setelah menukar variabel: x = 5y + 10, lalu x − 10 = 5y. Jadi f⁻¹(x) = (x − 10)/5." },
+      { id:"in4", topic:"Fungsi invers", prompt:"Jika f(x) = 2x + 6, maka f⁻¹(x) adalah …", options:["(x + 6)/2","(x − 6)/2","2x − 6","2x + 6"], answer:"(x − 6)/2", explanation:"y = 2x + 6. Tukar x dan y: x = 2y + 6. Maka y = (x − 6)/2." },
+      { id:"in5", topic:"Fungsi invers", prompt:"Untuk f(x) = x², domain manakah yang sesuai jika kita ingin inversnya berbentuk f⁻¹(x) = √x?", options:["semua bilangan real","x ≤ 0","x ≥ 0","semua bilangan bulat"], answer:"x ≥ 0", explanation:"Pada semua bilangan real, x² tidak satu-satu karena misalnya 2² = (−2)². Jika domain dibatasi x ≥ 0, fungsi menjadi satu-satu dan inversnya √x." },
+      { id:"in6", topic:"Fungsi invers", prompt:"Invers dari f(x) = (3x + 1)/2 adalah …", options:["(2x − 1)/3","(2x + 1)/3","(3x − 1)/2","(x − 1)/3"], answer:"(2x − 1)/3", explanation:"y = (3x + 1)/2. Tukar variabel: x = (3y + 1)/2. Maka 2x = 3y + 1, sehingga y = (2x − 1)/3." }
+    ];
+
+    const quizContainer = document.getElementById("quizContainer");
+    const quizForm = document.getElementById("quizForm");
+    const quizCount = document.getElementById("quizCount");
+    const quizMessage = document.getElementById("quizMessage");
+    const resultPanel = document.getElementById("resultPanel");
+    const submitBtn = document.getElementById("submitBtn");
+    let currentQuestions = [];
+    let selectedAnswers = {};
+    let submitted = false;
+    let previousSignature = "";
+
+    function shuffle(items) {
+      const copy = items.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function createQuestionSet() {
+      const groups = ["Operasi aljabar", "Komposisi fungsi", "Fungsi invers"];
+      let freshSet = [];
+      let signature = "";
+      // Pilih dua pertanyaan dari setiap materi agar kuis tetap seimbang.
+      for (let attempt = 0; attempt < 40; attempt++) {
+        freshSet = [];
+        groups.forEach(topic => {
+          const available = questionBank.filter(q => q.topic === topic);
+          freshSet.push(...shuffle(available).slice(0, 2));
+        });
+        freshSet = shuffle(freshSet);
+        signature = freshSet.map(q => q.id).sort().join("|");
+        if (signature !== previousSignature) break;
+      }
+      previousSignature = signature;
+      return freshSet.map(q => ({...q, options: shuffle(q.options)}));
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"}[char]));
+    }
+
+    function renderQuiz() {
+      quizContainer.innerHTML = currentQuestions.map((q, index) => {
+        const optionsHtml = q.options.map((option, optionIndex) => {
+          const checked = selectedAnswers[q.id] === option ? "checked" : "";
+          let optionClass = "option";
+          if (submitted && option === q.answer) optionClass += " correct";
+          if (submitted && selectedAnswers[q.id] === option && option !== q.answer) optionClass += " incorrect";
+          return `<label class="${optionClass}" data-option="${escapeHtml(option)}"><input type="radio" name="${q.id}" value="${escapeHtml(option)}" ${checked} ${submitted ? "disabled" : ""}><span>${escapeHtml(option)}</span></label>`;
+        }).join("");
+        let feedbackHtml = "";
+        if (submitted) {
+          const choice = selectedAnswers[q.id];
+          const isCorrect = choice === q.answer;
+          const kind = isCorrect ? "good" : "bad";
+          const headline = isCorrect ? "Benar!" : (choice ? "Belum tepat." : "Belum dijawab.");
+          feedbackHtml = `<div class="feedback visible ${kind}"><b>${headline}</b> Kunci: <b>${escapeHtml(q.answer)}</b><div>${escapeHtml(q.explanation)}</div></div>`;
+        }
+        return `<fieldset class="question-card" data-question="${q.id}" style="border:1px solid #d9eaf7;margin:0"><legend class="sr-only">Soal ${index+1}</legend><div class="question-top"><span class="q-number">${String(index+1).padStart(2,"0")}</span><span class="q-topic">${escapeHtml(q.topic)}</span></div><p class="q-prompt">${escapeHtml(q.prompt)}</p><div class="options">${optionsHtml}</div>${feedbackHtml}</fieldset>`;
+      }).join("");
+      updateProgress();
+      submitBtn.disabled = submitted;
+      submitBtn.style.opacity = submitted ? ".6" : "1";
+      submitBtn.style.cursor = submitted ? "not-allowed" : "pointer";
+    }
+
+    function updateProgress() {
+      const answered = Object.keys(selectedAnswers).filter(id => selectedAnswers[id] !== undefined && selectedAnswers[id] !== "").length;
+      quizCount.textContent = submitted
+        ? `Kuis selesai · ${answered} dari ${currentQuestions.length} soal dijawab`
+        : `Terjawab ${answered} dari ${currentQuestions.length} soal · Skor muncul setelah kuis diperiksa`;
+    }
+
+    function startNewQuiz(message) {
+      currentQuestions = createQuestionSet();
+      selectedAnswers = {};
+      submitted = false;
+      resultPanel.classList.remove("visible");
+      quizMessage.textContent = message || "Soal baru siap. Kerjakan dulu sebelum melihat pembahasannya.";
+      renderQuiz();
+    }
+
+    quizContainer.addEventListener("change", event => {
+      if (submitted || !event.target.matches('input[type="radio"]')) return;
+      selectedAnswers[event.target.name] = event.target.value;
+      updateProgress();
+    });
+
+    quizForm.addEventListener("submit", event => {
+      event.preventDefault();
+      if (submitted) return;
+      submitted = true;
+      const total = currentQuestions.length;
+      const correct = currentQuestions.filter(q => selectedAnswers[q.id] === q.answer).length;
+      const answered = currentQuestions.filter(q => Boolean(selectedAnswers[q.id])).length;
+      const blank = total - answered;
+      const wrong = answered - correct;
+      const score = Math.round((correct / total) * 100);
+      renderQuiz();
+      document.getElementById("scoreCircle").textContent = score;
+      document.getElementById("correctCount").textContent = correct;
+      document.getElementById("wrongCount").textContent = wrong;
+      document.getElementById("emptyCount").textContent = blank;
+      document.getElementById("resultTitle").textContent = score >= 85 ? "Keren, kamu menguasai banyak konsep!" : score >= 60 ? "Bagus, tinggal kuatkan lagi." : "Tidak apa-apa, kita belajar lagi.";
+      document.getElementById("resultSubtitle").textContent = `Nilaimu ${score} dari 100. Kunci jawaban dan pembahasan sudah muncul pada setiap soal.`;
+      document.getElementById("studyTip").textContent = score === 100
+        ? "Sempurna! Coba Ganti Soal untuk latihan dengan variasi soal yang berbeda."
+        : "Tips: buka kembali materi pada topik yang jawabannya belum tepat, lalu tekan Ganti Soal untuk mencoba variasi lain.";
+      resultPanel.classList.add("visible");
+      quizMessage.textContent = "Kuis sudah diperiksa. Geser ke tiap soal untuk membaca pembahasan.";
+      resultPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      selectedAnswers = {};
+      submitted = false;
+      resultPanel.classList.remove("visible");
+      quizMessage.textContent = "Kuis direset. Semua pilihan dan skor kembali ke awal; soal tetap sama.";
+      renderQuiz();
+      document.getElementById("kuis").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    document.getElementById("changeBtn").addEventListener("click", () => {
+      startNewQuiz("Soal berhasil diganti tanpa memuat ulang website. Semangat mengerjakan!");
+      document.getElementById("kuis").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    startNewQuiz("Tidak harus buru-buru. Coba kerjakan tanpa membuka catatan dulu.");
+  </script>
+</body>
+</html>
